@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+     
+ .page{
+padding:2%;
+margin: auto;
+}
+.card-img-top{
+width:90%;
+height:225px;
+margin-top: 15px;
+border-radius: 20px;
+}
+.card{
+  width:95%;
+  padding:0px;
+  margin-left: 2%;
+  background-color: transparent;
+} 
+ .view{
+  transform: scale(1.01);
+}  
+
+.card-footer{
+  /* background-color:darksalmon; */
+  font-weight: 500;
+}
+
+.price{
+color:black;
+  font-weight: 600;}
+  /* NAVBAR CSS START */
+  body {
+            font-family: Arial, sans-serif;
+        }
+		.nav-item :hover{
+			transform: scale(1.05);
+		}
+        .product {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+        #cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+             /* background-color: #007bff;  */
+             background-color: #542609;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+		.offcanvas {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+            transition: right 0.3s;
+        }
+        .offcanvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+		.close-btn {
+            background:#542609;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .offcanvas-content {
+            padding: 20px;
+        }
+		.overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+            z-index: 999;
+        }
+        .overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .offcanvas.show {
+            right: 0;
+        }
+		.cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .cart-item h4 {
+            margin: 0;
+        }
+        .cart-item button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+        #cart-summary {
+            margin-top: 20px;
+            text-align: center;
+        }
+		#checkout-button {
+            padding: 10px 20px;
+            background-color: #542609;
+            color:white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+		/* navbar css end */
+		/* footer css start */
+		#footer{background: #404040;padding: 0 0 30px 0;color: #fff;font-size: 14px}
+        #footer .footer-newsletter{padding: 50px 0;background: #404040}
+        #footer .footer-newsletter h4{font-size: 24px;margin: 0 0 20px 0;padding: 0;line-height: 1;font-weight: 600}
+        #footer .footer-newsletter form{margin-top: 30px;background: #fff;padding: 6px 10px;position: relative;border-radius: 50px}
+        #footer .footer-newsletter form input[type="email"]{border: 0;padding: 8px;width: calc(100% - 140px)}
+        #footer .footer-newsletter form input[type="submit"]{position: absolute;top: 0;right: 0;bottom: 0;border: 0;background: none;font-size: 16px;padding: 0 30px;margin: 3px;background: #e96b56;color: #fff;transition: 0.3s;border-radius: 50px}
+        #footer .footer-newsletter form input[type="submit"]:hover{background: #e6573f}
+        #footer .footer-top{background: #3b3b3b;border-top: 1px solid #474747;border-bottom: 1px solid #474747;padding: 60px 0 30px 0}
+        #footer .footer-top .footer-info{margin-bottom: 30px}
+        #footer .footer-top .footer-info h3{font-size: 18px;margin: 0 0 20px 0;padding: 2px 0 2px 0;line-height: 1;font-weight: 700}
+        #footer .footer-top .footer-info p{font-size: 14px;line-height: 24px;margin-bottom: 0;font-family: "Raleway", sans-serif;color: #fff}
+        #footer .footer-top .social-links a{font-size: 18px;display: inline-block;background: #545454;color: #fff;line-height: 1;padding: 8px 0;margin-right: 4px;border-radius: 50%;text-align: center;width: 36px;height: 36px;transition: 0.3s}
+        #footer .footer-top .social-links a:hover{background:#542609;color: #fff;text-decoration: none}
+        #footer .footer-top h4{font-size: 16px;font-weight: bold;color: #fff;text-transform: uppercase;position: relative;padding-bottom: 12px}
+        #footer .footer-top .footer-links{margin-bottom: 30px}
+        #footer .footer-top .footer-links ul{list-style: none;padding: 0;margin: 0}
+        #footer .footer-top .footer-links ul i{padding-right: 2px;color: #ec7f6d;font-size: 18px;line-height: 1}
+        #footer .footer-top .footer-links ul li{padding: 10px 0;display: flex;align-items: center}
+        #footer .footer-top .footer-links ul li:first-child{padding-top: 0}
+        #footer .footer-top .footer-links ul a{color: #fff;transition: 0.3s;display: inline-block;line-height: 1}
+        #footer .footer-top .footer-links ul a:hover{color: #542609}#footer .footer-top .footer-contact{margin-bottom: 30px}
+        #footer .footer-top .footer-contact p{line-height: 26px}
+        #footer .copyright{text-align: center;padding-top: 30px}
+        #footer .credits{padding-top: 10px;text-align: center;font-size: 13px;color: #fff}
+		.row :hover{
+			transform: scale(1.01);
+		}
+  </style>
+</head>
+<body>
+ <!-- Navbar start -->
+ <nav class="navbar navbar-expand-lg navbar-light " id="navbar" style="background-color:transparent; height: 80px;">
+	<div class="container-fluid" id="navbar">
+	  <a class="navbar-brand" href="#"><img src="LOGO n.png" alt="" width="100%" height="70px" ></a>
+	  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class=" collapse navbar-collapse " id="navbarSupportedContent">
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center ">
+		  <li class="nav-item">
+			<a class="nav-link active" aria-current="page" href="index.html" style="color:black; font-weight: bold;">Home</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="about.html" style="color:black; font-weight: bold;">About Us</a>
+		  </li>
+		  <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight: bold;">Products</a>
+			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<li><a class="dropdown-item b1" style="color: black; font-weight: bold;" href="almonds.html">Almonds</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="peanut.html">Peanuts</a></li>                
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="Cashews.html">Cashew</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="driedfig.html">Figs</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="apricot.html">Apricots</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="dates.html">Dates</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="walnut.html">Walnuts</a></li>
+				<li><a class="dropdown-item" style="color: black; font-weight: bold;" href="pistachio.html">Pistachio</a></li>
+			  </ul>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="giftbox.html" style="color:black; font-weight: bold;">Gift Box</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="contact.html" style="color:black; font-weight: bold;">Contact Us</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="disclaimer.html" style="color:black; font-weight: bold;">Disclaimer</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="Sitemap.html" style="color:black; font-weight: bold;">Site Map</a>
+		  </li>
+		</ul>
+		<a class="link-dark" href="registration.html"><i class="fa fa-user" style="font-size:35px; margin-right: 40px;"></i></a>
+
+		  <i type="icon" class="fa fa-shopping-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="font-size:35px; position:relative;margin-right: 80px;">
+			<span id="item-count" style="position:absolute; top:0; right:0; background:red; color:white; border-radius:50%; padding:2px 5px; font-size:14px;">0</span>
+		  </i>
+		  <!-- Offcanvas add to cart start -->
+		  <div id="offcanvasRight" class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasRightLabel">
+			<div class="offcanvas-header">
+				<h5 id="offcanvasRightLabel">Added items</h5>
+				<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-content">
+				<div id="cart-items"></div>
+				<div id="cart-summary">
+					<p>Total: Rs:<span id="cart-total">0</span></p>
+					<button id="checkout-button">Checkout</button>
+				</div>
+			</div>
+		</div>
+		<!-- Offcanvas add to cart end -->
+	  </div>
+	</div>
+</nav>
+<!-- navbar end -->
+
+  <!-- <div class="container-fluid col-sm-12" > -->
+    <img src="almondbanner.jpg" alt="" class="img-fluid" style="width: 100%;">
+  <!-- </div> -->
+  <h1 class="text-center mt-4 mb-4 fw-bold ">- Almonds -</h1>
+
+<!--For Page-->
+<div class="page">
+
+	<!--For Row containing all card-->
+	<div class="row">
+
+
+
+		<!--Card 1-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view text-center">
+					<img class="card-img-top" src="roastedalmond2.jpg"alt="" >
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class=" card-title "><strong><a class="text-dark" href="">Roasted Almond</a></strong></h4>
+
+
+					<p class="price">Rs.350</p>
+          <a href="roasted almond.html"><button class="btn btn-danger w-100 a1" style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<!--Card 2-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view text-center">
+					<img class="card-img-top" src="californiaalmond2.jpg"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark" href="">California Almond</a></strong></h4>
+					<p class="price">Rs.370</p>
+          <a href="californiaa almond.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<!--Card 3-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="iranianalmond2.jpg"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark" href="">Iranian Almond</a></strong></h4>
+
+					<p class="price">Rs.580</p>
+         <a href="iranian almond.html"> <button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+    <!--Card 3-->
+    <div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="australianalmond2.jpg"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a  class="text-dark">Australian Almond</a></strong></h4>
+
+					<p class="price">Rs.325</p>
+         <a href="australian almond.html"> <button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+  <div class="row">
+
+
+
+		<!--Card 1-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="almondd2.jpg"alt="" >
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark" href="">Kashmiri Almond</a></strong></h4>
+
+
+					<p class="price">Rs.525</p>
+          <a href="kashmiri almond.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<!--Card 2-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="salted almond.avif"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark" href="">Salted Almonds</a></strong></h4>
+					<p class="price">Rs.300</p>
+         <a href="salted almond.html"> <button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<!--Card 3-->
+		<div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="salted caramel almond.webp"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark" href=""> Caramel Almond</a></strong></h4>
+
+					<p class="price">Rs.550</p>
+          <a href="caramal almond.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+    <!--Card 3-->
+    <div class="col-sm">
+			<div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+
+				<!--Card image-->
+				<div class="view  text-center">
+					<img class="card-img-top" src="chocolate almond.jpg"alt="">
+					<a>
+						<div class="mask rgba-white-slight"></div>
+					</a>
+				</div>
+
+				<!--Card Body-->
+				<div class="card-body card-body-cascade text-center">
+
+					<!--Card Title-->
+					<h4 class="card-title"><strong><a class="text-dark"  href="">Chocolate Almond</a></strong></h4>
+
+					<p class="price">Rs.560</p>
+         <a href="chocolate almond.html"> <button class="btn btn-danger w-100 a1" style="background-color: #542609;color: white;border-radius: 25px;" >ORDER NOW</button></a>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- products end -->
+   <!-- FOOTER START -->
+   <footer id="footer">
+
+                            <div class="footer-top"> 
+                               <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 footer-links">
+                                            <h4>Useful Links</h4>
+                                             <ul> <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+                                                <li><i class="bx bx-chevron-right"></i> <a href="about.html">About us</a></li>
+                                                 <li><i class="bx bx-chevron-right"></i> <a href="#">Product</a></li>
+                                                  <li><i class="bx bx-chevron-right"></i> <a href="giftpack.html">Gift Pack</a></li>
+                                                   <li><i class="bx bx-chevron-right"></i> <a href="disclaimer.html">Disclaimer</a></li>
+                                                </ul>
+                                                </div>
+                                                 <div class="col-lg-3 col-md-6 footer-links"> 
+                                                   <h4>Our Products</h4> 
+                                                   <ul>
+                                                        <li><i class="bx bx-chevron-right"></i> <a href="peanut.html">Peanuts</a></li> 
+                                                        <li><i class="bx bx-chevron-right"></i> <a href="walnut.html">Walnuts</a></li>
+                                                         <li><i class="bx bx-chevron-right"></i> <a href="almonds.html">Almonds</a></li>
+                                                          <li><i class="bx bx-chevron-right"></i> <a href="Cashews.html">Cashew</a></li> 
+                                                          <li><i class="bx bx-chevron-right"></i> <a href="apricot.html">Apricot</a></li> 
+                                                          <li><i class="bx bx-chevron-right"></i> <a href="driedfig.html">Dry Figs</a></li>
+                                                          <li><i class="bx bx-chevron-right"></i> <a href="pistachio.html">Pistachio</a></li> 
+                                                          <li><i class="bx bx-chevron-right"></i> <a href="dates.html">Dates</a></li> 
+
+
+                                                       </ul>
+                                                    </div>
+                                                     <div class="col-lg-3 col-md-6 footer-contact">
+                                                        <h4>Contact Us</h4>
+                                                         <p> A108 Adam Street <br> New York, NY 535022<br> United States <br><br> <strong>Phone:</strong> +1 5589 55488 55<br> <strong>Email:</strong> info@example.com<br> </p> </div> 
+                                                         <div class="col-lg-3 col-md-6 footer-info">
+                                                             <img src="LOGO n.png" alt="" style="margin-top: -30px;">
+                                                             <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                                                              <div class="social-links mt-3"> 
+                                                               <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                                                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                                                                 <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                                                                  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> 
+                                                               </div>
+                                                            </div>
+                                                            </div>
+                                                            </div> 
+                                                           </div>
+                                                            <div class="container">
+                                                                <div class="copyright"> &copy; Copyright <strong><span>Maru DryFruit</span></strong>. All Rights Reserved </div>
+								
+                                                                </div>
+</footer>
+</body>
+</html>

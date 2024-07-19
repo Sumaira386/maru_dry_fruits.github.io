@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <script src="regislogin.js"></script>
+</head>
+<style>
+    /* body
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url(loginback.jpg) no-repeat;
+        background-size: cover;
+        background-position: center;
+        } */
+        .container{
+            width: 400px;
+            margin-top: 80px;
+                       
+        }
+        .card{
+        border-radius: 10px;
+        padding: 35px 26px;
+      
+        background: transparent;
+        border: 2px solid rgba(255,255,255,.2);
+        backdrop-filter: blur(20px) ;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+        .abt{
+        font-size: 14px
+        }
+        .inputbox{
+        margin-top: 12px;
+        position: relative
+        }
+        .inputbox input{
+        border: 2px solid #eee;
+        padding: 0 10px
+        }
+        .proceed button{
+        height: 50px;
+        font-size: 15px
+        }
+        .btn-primary:focus{
+        color:#542609;background-color: white;box-shadow: none
+        }
+        .a2 :hover{
+            color: #542609;
+        }
+       
+</style>
+<body>
+    
+    <div class="container">
+        <div class="card">
+          <div class="text-center">
+            <h3 class="fw-bold ">Login</h3>
+            <div class="form mt-3"> 
+             <div class="inputbox">
+                <div class="inputbox"> <input type="text" id="email" class="form-control " placeholder="Email" required></div>
+                 <input type="password" id="password" class="form-control mt-2" placeholder="password" required></div>                 
+            </div> 
+                <div class="mt-4 proceed a2"> <button class="btn btn-secondary a2 btn-block d-flex flex-row justify-content-center align-items-center" style="background-color: white; color: #542609;border-radius: 25px;"  value="Login" onclick="signin()">
+                <div class="text-center a2"><a href="home.html"> Login</a> </div>
+               
+            </div>
+            </button>
+        </div>
+        
+        </label>
+        </div>
+    </div>
+    </div>
+     
+    
+</body>
+<script>
+    function signup()
+{
+   var f_name = document.getElementById("fname").value;
+   var l_name = document.getElementById("lname").value;
+   var email = document.getElementById("email").value;
+   var pass = document.getElementById("password").value;
+
+   localStorage.setItem("username",f_name);
+   localStorage.setItem("useremail",email);
+   localStorage.setItem("userpass",pass);
+
+   if(email!="")
+    {
+       if(pass!="")
+        {
+            //  alert("registration successfully");
+            location.assign('login.html');
+        }
+
+    }
+
+    else{
+        alert("not a register");
+    }
+
+
+}
+
+function signin()
+{
+   var get_email =  localStorage.getItem("useremail");
+   var get_pass =  localStorage.getItem("userpass");
+
+   sessionStorage.setItem('useremail',get_email);
+    var email = document.getElementById("email").value;
+    var pass = document.getElementById("password").value;
+
+    if(email == get_email && pass == get_pass)
+    {
+          alert("login successfully");
+          location.assign('home.html');
+    }
+
+    else{
+        alert("not a login");
+    }
+
+}
+
+</script>
+</html>

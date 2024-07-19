@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    /* navbar css */
+    body {
+    font-family: Arial, sans-serif;
+}
+.nav-item :hover{
+    transform: scale(1.05);
+}
+.product {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+#cart-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+     /* background-color: #007bff;  */
+     background-color: #542609;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.offcanvas {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    transition: right 0.3s;
+}
+.offcanvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+}
+.close-btn {
+    background:#542609;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+.offcanvas-content {
+    padding: 20px;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+    z-index: 999;
+}
+.overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+.offcanvas.show {
+    right: 0;
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+.cart-item h4 {
+    margin: 0;
+}
+.cart-item button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+#cart-summary {
+    margin-top: 20px;
+    text-align: center;
+}
+#checkout-button {
+    padding: 10px 20px;
+    background-color: #542609;
+    color:white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* offcanvas add to cart css */
+ .product-page {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+} 
+.product-image {
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+}
+.product-title {
+    font-size: 24px;
+    margin: 10px 0;
+} 
+ .product-price {
+    font-size: 40px;
+    color:black;
+    margin: 10px 0;
+}
+.weight-select, .quantity-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+} 
+.cart-button {
+    position: relative;
+    outline: 0;
+    background-color:brown;
+    color: burlywood;
+    border: none;
+    height: 48px;
+    width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 0px;
+    overflow: hidden;
+    cursor: pointer;
+} 
+ .cart-button:focus {
+    outline: none !important;
+}
+.cart-button .fa-shopping-cart {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: -20%;
+    font-size: 1.8em;
+    transform: translate(-50%, -50%);
+} 
+.cart-button .fa-square {
+    position: absolute;
+    z-index: 1;
+    top: -20%;
+    left: 53%;
+    font-size: 0.8em;
+    transform: translate(-50%, -50%);
+}
+.cart-button span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: #fff;
+    transform: translate(-50%, -50%);
+}
+.cart-button span.added {
+    opacity: 0;
+} 
+ .cart-button.clicked .fa-shopping-cart {
+    animation: cart 2s ease-in forwards;
+}
+.cart-button.clicked .fa-square {
+    animation: box 2s ease-in forwards;
+}
+.cart-button.clicked span.add-to-cart {
+    animation: addcart 2s ease-in forwards;
+}
+.cart-button.clicked span.added {
+    animation: added 2s ease-in forwards;
+} 
+ @keyframes cart {
+    0% {left: -10%;}
+    40%, 60% {left: 50%;}
+    100% {left: 110%;}
+}
+@keyframes box {
+    0%, 40% {top: -20%;}
+    60% {top: 36%; left: 53%;}
+    100% {top: 40%; left: 112%;}
+}
+@keyframes addcart {
+    0%, 30% {opacity: 1;}
+    30%, 100% {opacity: 0;}
+}
+@keyframes added {
+    0%, 80% {opacity: 0;}
+    100% {opacity: 1;}
+} 
+/* FOOTER CSS START */
+#footer{background: #404040;
+    padding: 0 0 30px 0;
+    color: #fff;
+    font-size: 14px}
+#footer .footer-newsletter{padding: 50px 0;
+    background: #404040}
+#footer .footer-newsletter h4{font-size: 24px;
+    margin: 0 0 20px 0;
+    padding: 0;
+    line-height: 1;
+    font-weight: 600}
+#footer .footer-newsletter form{margin-top: 30px;
+    background: #fff;
+    padding: 6px 10px;
+    position: relative;
+    border-radius: 50px}
+#footer .footer-newsletter form input[type="email"]{border: 0;
+    padding: 8px;
+    width: calc(100% - 140px)}
+    #footer .footer-newsletter form input[type="submit"]{position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 0;
+    background: none;
+    font-size: 16px;
+    padding: 0 30px;
+    margin: 3px;
+    background: #e96b56;
+    color: #fff;
+    transition: 0.3s;
+    border-radius: 50px}
+#footer .footer-newsletter form input[type="submit"]:hover{background: #e6573f}
+#footer .footer-top{background: #3b3b3b;
+    border-top: 1px solid #474747;
+    border-bottom: 1px solid #474747;
+    padding: 60px 0 30px 0}
+#footer .footer-top .footer-info{margin-bottom: 30px}
+#footer .footer-top .footer-info h3{font-size: 18px;
+    margin: 0 0 20px 0;
+    padding: 2px 0 2px 0;
+    line-height: 1;
+    font-weight: 700}
+    #footer .footer-top .footer-info p{font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    font-family: "Raleway", sans-serif;color: #fff}
+#footer .footer-top .social-links a{font-size: 18px;
+    display: inline-block;
+    background: #545454;
+    color: #fff;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 50%;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s}
+#footer .footer-top .social-links a:hover{background:#542609;
+    color: #fff;
+    text-decoration: none}
+#footer .footer-top h4{font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 12px}
+    #footer .footer-top .footer-links{margin-bottom: 30px}
+#footer .footer-top .footer-links ul{list-style: none;
+    padding: 0;
+    margin: 0}
+#footer .footer-top .footer-links ul i{padding-right: 2px;
+    color: #ec7f6d;
+    font-size: 18px;
+    line-height: 1}
+#footer .footer-top .footer-links ul li{padding: 10px 0;
+    display: flex;
+    align-items: center}
+#footer .footer-top .footer-links ul li:first-child{padding-top: 0}
+#footer .footer-top .footer-links ul a{color: #fff;
+    transition: 0.3s;
+    display: inline-block;
+    line-height: 1}
+#footer .footer-top .footer-links ul a:hover{color: #542609}#footer .footer-top .footer-contact{margin-bottom: 30px}
+#footer .footer-top .footer-contact p{line-height: 26px}
+#footer .copyright{text-align: center;
+    padding-top: 30px}
+#footer .credits{padding-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    color: #fff}
+    .a1{
+      display: flex;
+      /* align-items: center; */
+       justify-content: space-evenly; 
+    }
+  </style>
+  </head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light " id="navbar" style="background-color:transparent; height: 80px; width: 100%;">
+      <div class="container-fluid  " id="navbar">
+        <a class="navbar-brand" href="#"><img src="LOGO n.png" alt="" width="100%" height="70px" ></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class=" collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center ">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html" style="color:black; font-weight: bold;">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html" style="color:black; font-weight: bold;">About Us</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight: bold;">Products</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item b1" style="color: black; font-weight: bold;" href="almonds.html">Almonds</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="peanut.html">Peanuts</a></li>                
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="Cashews.html">Cashew</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="driedfig.html">Figs</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="apricot.html">Apricots</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="dates.html">Dates</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="walnut.html">Walnuts</a></li>
+                  <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="pistachio.html">Pistachio</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="giftpack.html" style="color:black; font-weight: bold;">Gift Box</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html" style="color:black; font-weight: bold;">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="disclaimer.html" style="color:black; font-weight: bold;">Disclaimer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Sitemap.html" style="color:black; font-weight: bold;">Site Map</a>
+            </li>
+          </ul>
+           <a class="link-dark" href="registration.html"><i class="fa fa-user" style="font-size:35px; margin-right: 40px;"></i></a>
+
+            <i type="icon" class="fa fa-shopping-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="font-size:35px; position:relative;margin-right: 80px;">
+              <span id="item-count" style="position:absolute; top:0; right:0; background:red; color:white; border-radius:50%; padding:2px 5px; font-size:14px;">0</span>
+            </i>
+            <!-- Offcanvas add to cart start -->
+            <div id="offcanvasRight" class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasRightLabel">
+              <div class="offcanvas-header">
+                  <h5 id="offcanvasRightLabel">Added items</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-content">
+                  <div id="cart-items"></div>
+                  <div id="cart-summary">
+                      <p>Total: Rs:<span id="cart-total">0</span></p>
+                      <button id="checkout-button">Checkout</button>
+                  </div>
+              </div>
+          </div>
+          <!-- Offcanvas add to cart end -->
+        </div>
+      </div>
+  </nav>
+      <!-- contact page  slider-->
+    <img src="contactbannerr (1).jpg" alt="" class="img-fluid" style="width: 100%; height: 400px;">
+     <!-- contact page  -->
+
+     <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-12 a1">
+          <i class='fas fa-map-marker-alt' style="font-size: 24px;"></i>
+          <p class="fw-bold">Location</p>
+          <p>Karachi, Pakistan</p>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-sm-12 a1">
+          <i class="fa fa-whatsapp" style="font-size: 24px;"></i>
+          <p class="fw-bold">WhatsApp</p>
+          <p>+92 315 3831104</p>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-sm-12 a1">
+          <i class="fa fa-envelope " style="font-size: 24px;"></i>
+          <p class="fw-bold">Email</p>
+          <p>marudryfruit@gmail.com</p>          
+        </div>
+      </div>
+     </div>
+     
+      </div>
+      <!-- contact page start -->
+      <h1 class="text-center pt-3 fw-bold">Get In Touch</h1>
+      <p class="text-center fw-bold">Our staff will call back later and answer your questions.</p>
+      <!-- CONTACT FORM -->
+      <div class="container">
+        <div class="row">
+           <div class="col-lg-6 col-md-6 col-sm-12"> 
+            <form>
+              <div class="form-group">
+                <label class="my-2 fw-bold">Name:</label>
+                <input type="text" placeholder="Enter your name" class="form-control" required pattern="[A-Za-z]{3,}">
+              </div>
+              <div class="form-group">
+                <label class="my-2 fw-bold">Email:</label>
+                <input type="email" placeholder="Enter your email" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="my-2 fw-bold">Phone:</label>
+                <input type="email" placeholder="Enter your phone no." class="form-control" required >
+              </div>
+              <div class="form-group">
+                <label class="my-2 fw-bold">Message:</label>
+                <textarea class="form-control" placeholder="Message..." required></textarea>
+              </div>
+              <button  class="btn btn-light my-3 w-50 text-light  " style="background-color:#542609;color: white;border-radius: 25px;">Submit</button>
+            </form>
+
+           </div>
+           <div class="col-lg-6 col-md-6 col-sm-12 ">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.0170064237855!2d67.07182317401181!3d24.863268745147753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33ea3dcaf47d9%3A0xe7ec8bb05b628158!2sAptech%20Pakistan!5e0!3m2!1sen!2s!4v1719738654725!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    
+           </div>
+        </div>
+      </div>
+      
+
+
+
+ <!-- FOOTER START -->
+ <footer id="footer" class="mt-5">
+  <div class="footer-top"> 
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-3 col-md-6 footer-links">
+           <h3 class="fw-bold">Useful Links</h3>
+             <ul> 
+               <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="about.html">About us</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="#">Product</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="giftpack.html">Gift Pack</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="disclaimer.html">Disclaimer</a></li>
+             </ul>
+         </div>
+         <div class="col-lg-3 col-md-6 footer-links"> 
+           <h3 class="fw-bold">Our Products</h3> 
+              <ul>
+               <li><i class="bx bx-chevron-right"></i> <a href="peanut.html">Peanuts</a></li> 
+               <li><i class="bx bx-chevron-right"></i> <a href="walnut.html">Walnuts</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="almonds.html">Almonds</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="Cashews.html">Cashew</a></li> 
+               <li><i class="bx bx-chevron-right"></i> <a href="apricot.html">Apricot</a></li> 
+               <li><i class="bx bx-chevron-right"></i> <a href="driedfig.html">Dry Figs</a></li>
+               <li><i class="bx bx-chevron-right"></i> <a href="pistachio.html">Pistachio</a></li> 
+               <li><i class="bx bx-chevron-right"></i> <a href="dates.html">Dates</a></li> 
+              </ul>
+         </div>
+         <div class="col-lg-3 col-md-6 footer-contact">
+          <h3 class="fw-bold">Contact Us</h3>
+         <p><br>30-A, Progressive Center, Suite # 202-203<br>Main Shahrah-e-Faisal Rd<br>Karachi,75400<br> <strong>Phone:</strong>(021)34385418<br> <strong>Email:</strong> marudryfruit@gmail.com<br> </p> </div> 
+         <div class="col-lg-3 col-md-6 footer-info">
+           <!-- <h3>About DevVE</h3> -->
+          <img src="LOGO n.png" alt="" style="margin-top: -30px;">
+           <p>Maru Dry Fruits is a renowned of high-quality dried fruits, nuts.With a commitment to freshness and flavor,ensuring premium quality and satisfaction for its customers.</p>
+           <div class="social-links mt-3"> 
+                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> 
+           </div>
+         </div>
+       </div>
+     </div> 
+  </div>
+  <div class="container">
+     <div class="copyright"> &copy; Copyright <strong><span>Maru DryFruit</span></strong>. All Rights Reserved </div> 
+   </div>
+</footer>
+<script>
+  const x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* navbar css start */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .nav-item :hover{
+            transform: scale(1.05);
+        }
+        .product {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+        #cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+             /* background-color: #007bff;  */
+             background-color: #542609;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .offcanvas {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+            transition: right 0.3s;
+        }
+        .offcanvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+        .close-btn {
+            background:#542609;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .offcanvas-content {
+            padding: 20px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s;
+            z-index: 999;
+        }
+        .overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .offcanvas.show {
+            right: 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .cart-item h4 {
+            margin: 0;
+        }
+        .cart-item button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+        #cart-summary {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #checkout-button {
+            padding: 10px 20px;
+            background-color: #542609;
+            color:white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* product page css start */
+        .product-page {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+            /* display: flex; */
+        }
+        .product-image {
+            width: 100%;
+            height: 500px;
+            cursor: pointer;
+        }
+        .product-title {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .product-price {
+            font-size: 40px;
+            color:black;
+            /* color: #888; */
+            margin: 10px 0;
+        }
+        .weight-select, .quantity-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .cart-button{position: relative;outline: 0;background-color:#542609;color:white;border: none;height: 48px;width: 200px;padding: 10px;border-radius: 10px;line-height: 0px;overflow: hidden;cursor:pointer}
+    .cart-button:focus{outline: none !important}
+    .cart-button .fa-shopping-cart{position: absolute;z-index: 2;top: 50%;left: -20%;font-size: 1.8em;transform: translate(-50%, -50%)}
+    .cart-button .fa-square{position: absolute;z-index: 1;top: -20%;left: 53%;font-size: 0.8em;transform: translate(-50%, -50%)}
+    .cart-button span{position: absolute;left: 50%;top: 50%;color: #fff;transform: translate(-50%, -50%)}
+    .cart-button span.added{opacity: 0}
+    .cart-button.clicked .fa-shopping-cart{animation: cart 2s ease-in forwards}
+    .cart-button.clicked .fa-square{animation: box 2s ease-in forwards}
+    .cart-button.clicked span.add-to-cart{animation: addcart 2s ease-in forwards}
+    .cart-button.clicked span.added{animation: added 2s ease-in forwards}
+    @keyframes cart{0%{left: -10%}40%, 60%{left: 50%}100%{left: 110%}} 
+     @keyframes box{0%, 40%{top: -20%}60%{top: 36%;left: 53%}100%{top: 40%;left: 112%}}
+    @keyframes addcart{0%, 30%{opacity: 1}30%, 100%{opacity: 0}}
+    @keyframes added{0%, 80%{opacity: 0}100%{opacity: 1}} 
+    /* RELATED PRODUCTS START */
+    .page{
+  /* background-color:#dfe6e0; */
+padding:2%;
+margin: auto;
+}
+.card-img-top{
+width:90%;
+height:225px;
+margin-top: 15px;
+border-radius: 20px;
+}
+.row :hover{
+	transform: scale(1.01);
+}
+.card{
+  width:95%;
+  padding:0px;
+  margin-left: 2%;
+  background-color: transparent;
+}
+    /* footer css start */
+    #footer{background: #404040;padding: 0 0 30px 0;color: #fff;font-size: 14px}
+        #footer .footer-newsletter{padding: 50px 0;background: #404040}
+        #footer .footer-newsletter h4{font-size: 24px;margin: 0 0 20px 0;padding: 0;line-height: 1;font-weight: 600}
+        #footer .footer-newsletter form{margin-top: 30px;background: #fff;padding: 6px 10px;position: relative;border-radius: 50px}
+        #footer .footer-newsletter form input[type="email"]{border: 0;padding: 8px;width: calc(100% - 140px)}
+        #footer .footer-newsletter form input[type="submit"]{position: absolute;top: 0;right: 0;bottom: 0;border: 0;background: none;font-size: 16px;padding: 0 30px;margin: 3px;background: #e96b56;color: #fff;transition: 0.3s;border-radius: 50px}
+        #footer .footer-newsletter form input[type="submit"]:hover{background: #e6573f}
+        #footer .footer-top{background: #3b3b3b;border-top: 1px solid #474747;border-bottom: 1px solid #474747;padding: 60px 0 30px 0}
+        #footer .footer-top .footer-info{margin-bottom: 30px}
+        #footer .footer-top .footer-info h3{font-size: 18px;margin: 0 0 20px 0;padding: 2px 0 2px 0;line-height: 1;font-weight: 700}
+        #footer .footer-top .footer-info p{font-size: 14px;line-height: 24px;margin-bottom: 0;font-family: "Raleway", sans-serif;color: #fff}
+        #footer .footer-top .social-links a{font-size: 18px;display: inline-block;background: #545454;color: #fff;line-height: 1;padding: 8px 0;margin-right: 4px;border-radius: 50%;text-align: center;width: 36px;height: 36px;transition: 0.3s}
+        #footer .footer-top .social-links a:hover{background: #542609;color: #fff;text-decoration: none}
+        #footer .footer-top h4{font-size: 16px;font-weight: bold;color: #fff;text-transform: uppercase;position: relative;padding-bottom: 12px}
+        #footer .footer-top .footer-links{margin-bottom: 30px}
+        #footer .footer-top .footer-links ul{list-style: none;padding: 0;margin: 0}
+        #footer .footer-top .footer-links ul i{padding-right: 2px;color: #ec7f6d;font-size: 18px;line-height: 1}
+        #footer .footer-top .footer-links ul li{padding: 10px 0;display: flex;align-items: center}
+        #footer .footer-top .footer-links ul li:first-child{padding-top: 0}
+        #footer .footer-top .footer-links ul a{color: #fff;transition: 0.3s;display: inline-block;line-height: 1}
+        #footer .footer-top .footer-links ul a:hover{color: #542609}#footer .footer-top .footer-contact{margin-bottom: 30px}
+        #footer .footer-top .footer-contact p{line-height: 26px}
+        #footer .copyright{text-align: center;padding-top: 30px}
+        #footer .credits{padding-top: 10px;text-align: center;font-size: 13px;color: #fff}
+    </style>
+</head>
+<body>
+     <!-- Navbar start -->
+     <nav class="navbar navbar-expand-lg navbar-light " id="navbar" style="background-color:transparent; height: 80px;">
+        <div class="container-fluid" id="navbar">
+          <a class="navbar-brand" href="#"><img src="LOGO n.png" alt="" width="100%" height="70px" ></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class=" collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center ">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html" style="color:black; font-weight: bold;">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html" style="color:black; font-weight: bold;">About Us</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight: bold;">Products</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item b1" style="color: black; font-weight: bold;" href="almonds.html">Almonds</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="peanut.html">Peanuts</a></li>                
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="Cashews.html">Cashew</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="driedfig.html">Figs</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="apricot.html">Apricots</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="dates.html">Dates</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="walnut.html">Walnuts</a></li>
+                    <li><a class="dropdown-item" style="color: black; font-weight: bold;" href="pistachio.html">Pistachio</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="giftbox.html" style="color:black; font-weight: bold;">Gift Box</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html" style="color:black; font-weight: bold;">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="disclaimer.html" style="color:black; font-weight: bold;">Disclaimer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sitemap.html" style="color:black; font-weight: bold;">Site Map</a>
+              </li>
+            </ul>
+            <a class="link-dark" href="registration.html"><i class="fa fa-user" style="font-size:35px; margin-right: 40px;"></i></a>
+
+              <i type="icon" class="fa fa-shopping-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="font-size:35px; position:relative;margin-right: 80px;">
+                <span id="item-count" style="position:absolute; top:0; right:0; background:red; color:white; border-radius:50%; padding:2px 5px; font-size:14px;">0</span>
+              </i>
+              <!-- Offcanvas add to cart start -->
+              <div id="offcanvasRight" class="offcanvas offcanvas-end" tabindex="-1" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 id="offcanvasRightLabel">Added items</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-content">
+                    <div id="cart-items"></div>
+                    <div id="cart-summary">
+                        <p>Total: Rs:<span id="cart-total">0</span></p>
+                        <button id="checkout-button">Checkout</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Offcanvas add to cart end -->
+          </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+     <!-- cashew single product detail page start -->
+     <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 c0l-sm-6 ">
+                <img src="apricot1.jpg" alt="veitnam cashew" class="product-image " style="border-radius: 15px;">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h1 class="product-title fw-bold" style="font-size: 35px;">California Apricot</h1>
+                <h5 class="fw-semibold" style="font-size: 25px;">Maru DryFruit is offering you:</h5>
+                    <p>Premium Quality</p> <p>Affordable Rates</p>
+                    <p>Fresh and Healthy Product</p>
+                <div class="product-price" id="product-price" style="margin-top: -20px;">Rs.300</div>
+                <h4 style="margin-top: -20px;">Weight:</h4>
+                <select class="weight-select" id="weight-select">
+                    <option value="300">250 GM</option>
+                    <option value="600">500 GM</option>
+                    <option value="1200">1 KG</option>
+                </select>
+                <h4>Quantity:</h4>
+
+                <input type="number" class="quantity-input" id="quantity-input" value="1" min="1">
+                <!-- <button class="add-to-cart w-100 mt-4">Add to Cart</button> -->
+                <div class="buttons">
+                    <!-- <button class="cart-button mt-5 w-50" style="margin-left: 100px;"> -->
+                        <button class="cart-button add-to-cart" data-id="34" data-name="California Apricot" data-price="300">
+
+                        <span class="add-to-cart">Add to cart</span>
+                         <span class="added">Item added</span> 
+                         <i class="fa fa-shopping-cart"></i> 
+                         <i class="fa fa-square"></i> 
+                       </button> 
+                   </div>
+            </div>
+        </div>
+    </div>
+    <!-- discription start -->
+     <div class="container col-sm-12">
+        <h2 class="text-center  mt-4 fw-bold">- Description -</h2>
+        <h5 class="fw-bold">Skin Damage and The Effects of Aging:</h5>
+         <p>Vitamins and dietary carotenoids have been known to play a vital role in overall skin health and appearance. In fact, many nutri-cosmetic products contain vital vitamins and natural carotenoids that may promote skin health.
+
+            Evidence now points to the fact that proper nutrition is critical for skin health and appearance. Dried Apricots contain many of these vital nutrients. They contain beta-carotene for instance, which your body converts into Vitamin A (retinol). There’s strong evidence that it may offer extra protection against sunburns and the more permanent dangers of UV rays</p>  
+        <h5 class="fw-bold"> Treatment of Anemia:</h5>
+        <p style="text-align: justify;"> Anemia may be a temporary or long term condition, both of which result from a deficiency of iron. Eating iron-rich foods is the best way to prevent and treat anemia. You can get about 3.5 milligrams of iron from a cup of dried apricot (halves).
+
+            While they may not meet your daily nutritional requirements for iron, apricots have the added benefit of vitamin C.</p>
+        <h5 class="fw-bold">May Help Reduce Blood Pressure:</h5>
+        <p> Dried apricots are a rich source of Potassium, a mineral linked with promoting healthy blood pressure. You can expect to consume around 259mg of potassium for every 3.5 ounces of apricots (approximately half a cup of fruits).</p>
+    </div>
+    
+        <!-- description end -->
+      <!-- related products start -->
+      <h2 class="text-center  mt-4 fw-bold">- Related Products -</h2>
+
+       <div class="page">
+        <div class="row">
+
+
+
+            <!--Card 1-->
+            <div class="col-sm">
+                <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+    
+                    <!--Card image-->
+                    <div class="view  text-center">
+                        <img class="card-img-top" src="apricot.jpg"alt="" >
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+    
+    
+                    <!--Card Body-->
+                    <div class="card-body card-body-cascade text-center">
+    
+                        <!--Card Title-->
+                        <h4 class="card-title"><strong><a class="text-dark" href="">Australian Apricot</a></strong></h4>
+    
+    
+                        <p class="price">Rs.400</p>
+             <a href="turkish apricot.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+    
+                    </div>
+                </div>
+            </div>
+    
+    
+    
+    
+            <!--Card 2-->
+            <div class="col-sm">
+                <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+    
+                    <!--Card image-->
+                    <div class="view text-center">
+                        <img class="card-img-top" src="apricot6.jpg"alt="">
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+    
+                    <!--Card Body-->
+                    <div class="card-body card-body-cascade text-center">
+    
+                        <!--Card Title-->
+                        <h4 class="card-title"><strong><a class="text-dark" href="">Iranian Apricot</a></strong></h4>
+                        <p class="price">Rs.360</p>
+              <a href="iranian apricot.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+    
+                    </div>
+                </div>
+            </div>
+    
+    
+    
+            <!--Card 3-->
+            <div class="col-sm">
+                <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+    
+                    <!--Card image-->
+                    <div class="view  text-center">
+                        <img class="card-img-top" src="apricot.jpeg"alt="">
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+    
+                    <!--Card Body-->
+                    <div class="card-body card-body-cascade text-center">
+    
+                        <!--Card Title-->
+                        <h4 class="card-title"><strong><a class="text-dark" href="">Afghani Apricot</a></strong></h4>
+    
+                        <p class="price">Rs.280</p>
+              <a href="afghani apricot.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;">ORDER NOW</button></a>
+    
+                    </div>
+                </div>
+            </div>
+        <!--Card 3-->
+        <div class="col-sm">
+                <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+    
+                    <!--Card image-->
+                    <div class="view  text-center">
+                        <img class="card-img-top" src="apricot1.jpg"alt="">
+                        <a>
+                            <div class="mask rgba-white-slight"></div>
+                        </a>
+                    </div>
+    
+                    <!--Card Body-->
+                    <div class="card-body card-body-cascade text-center">
+    
+                        <!--Card Title-->
+                        <h4 class="card-title"><strong><a class="text-dark"  href="">Gilgit Baltistan</a></strong></h4>
+    
+                        <p class="price">Rs.390</p>
+              <a href="gilgit baltistan apricot.html"><button class="btn btn-danger w-100 a1"style="background-color: #542609;color: white;border-radius: 25px;" >ORDER NOW</button></a>
+    
+    
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+       </div>
+       <!-- FOOTER START -->
+       <footer id="footer" class="mt-5">
+        <div class="footer-top"> 
+          <div class="container">
+            <div class="row">
+               <div class="col-lg-3 col-md-6 footer-links">
+                 <h3 class="fw-bold">Useful Links</h3>
+                   <ul> 
+                     <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="about.html">About us</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="#">Product</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="giftpack.html">Gift Pack</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="disclaimer.html">Disclaimer</a></li>
+                   </ul>
+               </div>
+               <div class="col-lg-3 col-md-6 footer-links"> 
+                 <h3 class="fw-bold">Our Products</h3> 
+                    <ul>
+                     <li><i class="bx bx-chevron-right"></i> <a href="peanut.html">Peanuts</a></li> 
+                     <li><i class="bx bx-chevron-right"></i> <a href="walnut.html">Walnuts</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="almonds.html">Almonds</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="Cashews.html">Cashew</a></li> 
+                     <li><i class="bx bx-chevron-right"></i> <a href="apricot.html">Apricot</a></li> 
+                     <li><i class="bx bx-chevron-right"></i> <a href="driedfig.html">Dry Figs</a></li>
+                     <li><i class="bx bx-chevron-right"></i> <a href="pistachio.html">Pistachio</a></li> 
+                     <li><i class="bx bx-chevron-right"></i> <a href="dates.html">Dates</a></li> 
+                    </ul>
+               </div>
+               <div class="col-lg-3 col-md-6 footer-contact">
+                <h3 class="fw-bold">Contact Us</h3>
+               <p><br>30-A, Progressive Center, Suite # 202-203<br>Main Shahrah-e-Faisal Rd<br>Karachi,75400<br> <strong>Phone:</strong>(021)34385418<br> <strong>Email:</strong> marudryfruit@gmail.com<br> </p> </div> 
+               <div class="col-lg-3 col-md-6 footer-info">
+                 <!-- <h3>About DevVE</h3> -->
+                <img src="LOGO n.png" alt="" style="margin-top: -30px;">
+                 <p>Maru Dry Fruits is a renowned of high-quality dried fruits, nuts.With a commitment to freshness and flavor,ensuring premium quality and satisfaction for its customers.</p>
+                 <div class="social-links mt-3"> 
+                      <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                      <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                      <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                      <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> 
+                 </div>
+               </div>
+             </div>
+           </div> 
+        </div>
+        <div class="container">
+           <div class="copyright"> &copy; Copyright <strong><span>Maru DryFruit</span></strong>. All Rights Reserved </div> 
+         </div>
+ </footer>
+ 
+
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+       <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</body>
+<script>
+    // product price change 
+    const priceElement = document.getElementById('product-price');
+        const weightSelect = document.getElementById('weight-select');
+        const quantityInput = document.getElementById('quantity-input');
+
+        function updatePrice() {
+            const weightPrice = parseInt(weightSelect.value);
+            const quantity = parseInt(quantityInput.value);
+            const totalPrice = weightPrice * quantity;
+            priceElement.innerText = 'Rs.' + totalPrice;
+        }
+
+        weightSelect.addEventListener('change', updatePrice);
+        quantityInput.addEventListener('input', updatePrice);
+
+//   ADD TO CART BUTTON
+
+document.addEventListener("DOMContentLoaded", function(event) {
+      
+      
+      const cartButtons = document.querySelectorAll('.cart-button');
+
+       cartButtons.forEach(button => {
+
+                button.addEventListener('click',cartClick);
+
+       });
+
+       function cartClick(){
+        let button =this;
+        button.classList.add('clicked');
+       }
+      
+      
+      
+  });
+
+//   ADD TO CART OFFCANVASE
+let cart = [];
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalElement = document.getElementById('cart-total');
+        const itemCountElement = document.getElementById('item-count');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const itemId = button.getAttribute('data-id');
+                const itemName = button.getAttribute('data-name');
+                const itemPrice = button.getAttribute('data-price');
+
+                const item = {
+                    id: itemId,
+                    name: itemName,
+                    price: Number(itemPrice)
+                };
+
+                addItemToCart(item);
+            });
+        });
+
+        function addItemToCart(item) {
+            const existingItem = cart.find(cartItem => cartItem.id === item.id);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                item.quantity = 1;
+                cart.push(item);
+            }
+
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+                cartItemElement.innerHTML = `
+                    <h4>${item.name} (x${item.quantity})</h4>
+                    <p>Rs.${(item.price * item.quantity).toFixed(2)}</p>
+                    <button onclick="removeItemFromCart(${item.id})">Remove</button>
+                `;
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalElement.textContent = total.toFixed(2);
+
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            itemCountElement.textContent = itemCount;
+        }
+
+        function removeItemFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            let cartItem = this.closest('.cart-item');
+            if (cartItem) {
+                let itemId = cartItem.getAttribute('data-id');
+
+                // Remove the item from the UI
+                cartItem.remove();
+
+                // Optionally, make an AJAX call to update the backend
+                fetch(`/remove-item/${itemId}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Optionally do something on success
+                        } else {
+                            // Handle failure
+                            console.error('Failed to remove item:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    });
+});
+</script>
+</html>
